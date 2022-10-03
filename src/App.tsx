@@ -2,6 +2,7 @@ import { FC } from 'react';
 import IMAGE from "../public/images/Typescript_logo_2020.svg.png";
 import { Person } from "../components/Person";
 import { Same } from "../components/Same";
+import { Text, Cities } from "../components/Text";
 
 export const App: FC = () => {
 
@@ -25,6 +26,9 @@ export const App: FC = () => {
       />
       <Same 
         name="haha"
+      />
+      <Text 
+        cities={Cities}
       />
     </>
   );
