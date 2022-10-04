@@ -1,14 +1,8 @@
 import { FC } from 'react';
 import IMAGE from "../public/images/Typescript_logo_2020.svg.png";
-import { Person } from "../components/Person";
-import { Same } from "../components/Same";
-import { Text, Cities } from "../components/Text";
+import { TodoList } from '../components/TodoList';
 
 export const App: FC = () => {
-
-  const generateEmail = (user: {name: string}): string => {
-    return `${user.name}@gmail.com`;
-  }
 
   return (
     <>
@@ -20,16 +14,7 @@ export const App: FC = () => {
         src={IMAGE} 
         alt="image" 
       />
-      <Person 
-        name="fedor"
-        generateEmail={generateEmail}
-      />
-      <Same 
-        name="haha"
-      />
-      <Text 
-        cities={Cities}
-      />
+      <TodoList />
     </>
   );
 };
