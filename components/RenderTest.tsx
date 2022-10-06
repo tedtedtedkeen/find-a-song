@@ -1,17 +1,18 @@
 import * as React from "react";
 import { FC } from "react";
 import { useInput } from "../src/hooks/useInput";
-import { useTodos } from '../src/hooks/TodoProvider';
+import { useAppDispatch } from '../src/hook';
+import { getName } from "../src/store/getNameSlice";
 
 export const RenderTest: FC = () => {
 
-  const { getName } = useTodos();
+  const dispatch = useAppDispatch()
 
   const [value, resetValue] = useInput("");
 
   const handlerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    getName(value.value);
+    dispatch(getName(value.value));
     resetValue();
   };
 

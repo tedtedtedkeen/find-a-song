@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./appSlice";
+import getNameSliceReducer from "./getNameSlice";
 
 const store = configureStore({
   reducer: {
     todos: appReducer,
+    getName: getNameSliceReducer
   }
 });
 

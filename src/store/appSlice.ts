@@ -1,13 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-// export const fetchData = createAsyncThunk(
-//   "todos/fetchData",
-//   async () => {
-//     const res = await fetch("https://jsonplaceholder.typicode.com/todos");
-//     const data = await res.json();
-//     return data;
-//   }
-// )
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface Todo {
   id: string;
@@ -17,10 +8,26 @@ interface Todo {
 
 type TodoState = {
   list: Todo[];
+  loading: boolean;
+  error: string | null;
 };
+
+export const fetchTodos = createAsyncThunk<Todo[], void, { rejectValue: string }>(
+  "todos/fetchTodos",
+  async function(_, { rejectWithValue }) {
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
+    if (!response.ok) {
+      return rejectWithValue("Server error");
+    }
+    const data = await response.json();
+    return data;
+  }
+)
 
 const initialState: TodoState = {
   list: [],
+  loading: false,
+  error: null
 }
 
 const appSlice = createSlice({
@@ -44,11 +51,17 @@ const appSlice = createSlice({
       state.list = state.list.filter(item => item.id !== action.payload)
     },
   },
-  // extraReducers: {
-  //   [fetchData.pending] : (state, action) => {},
-  //   [fetchData.fulfilled] : (state, action) => {},
-  //   [fetchData.rejected] : (state, action) => {},
-  // }
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTodos.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        state.list = action.payload;
+        state.loading = false;
+      })
+  }
 })
 
 export const { addTodo, removeTodo, toggleTodoCompleted } = appSlice.actions;
