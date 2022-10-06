@@ -1,16 +1,16 @@
-import * as React from "react";
 import { FC } from "react";
-import { useTodos } from '../src/hooks/TodoProvider';
+import { useAppDispatch } from "../src/hook";
+import { addTodo } from "../src/store/appSlice"
 import { useInput } from '../src/hooks/useInput';
 
 export const Form: FC = () => {
 
-  const { addTodo } = useTodos();
+  const dispatch = useAppDispatch();
   const [state, setState] = useInput("");
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    addTodo(state.value);
+    dispatch(addTodo(state.value));
     setState();
   };
 

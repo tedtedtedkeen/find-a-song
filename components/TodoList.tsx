@@ -1,20 +1,16 @@
-import * as React from "react";
 import { FC } from "react";
-import { useTodos } from '../src/hooks/TodoProvider';
-import { Form } from './Form';
+import { useAppSelector } from "../src/hook";
 import { Todo } from './Todo';
 
 export const TodoList: FC = () => {
 
-  const { todos } = useTodos();
+  const todos = useAppSelector(state => state.todos.list)
 
+  if (!todos.length) return <div>We have no data</div>
   return(
     <>
-      <Form />
       {
-        todos.map((item: { 
-            id: number, title: string, completed: boolean
-          }, index: number) => {
+        todos.map((item) => {
           return <Todo 
             {...item}
             key={item.id}

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { FC, ReactNode } from "react";
 import { useState, useEffect, createContext, useContext } from "react";
 
 const TodoContext = createContext<any>({} as any);
@@ -18,23 +17,48 @@ export function TodoProvider({
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then(res => res.json())
-      .then(res => setTodos(res))
+      .then((res) => res.map((item: any) => {
+        item.id <= 3
+          ? setTodos(prev => [...prev, item])
+          : null
+      }) )
       .catch(err => err);
   }, [])
 
   const addTodo = (title: string) => {
-    setTodos([
-      ...todos,
-      {
-        title,
-        id: Math.floor(Math.random() * todos.length),
-        completed: false,
-      }
-    ])
+    if (title.trim().length) {
+      setTodos([
+        ...todos,
+        {
+          title,
+          id: Math.floor(Math.random() * todos.length),
+          completed: false,
+        }
+      ])
+    }
+  };
+
+  const toggleTodoCompleted = (id: number) =>{
+    setTodos(todos.map(item => {
+      if (item.id !== id) return item;
+      console.log(item.completed);
+      return {
+        ...item,
+        completed: !item.completed
+      };
+    }))
+  };
+  
+  const removeTodo = (id: number) => {
+    return setTodos(prev => prev.filter(item => item.id !== id));
+  };
+
+  const getName = (name: string): void => {
+    alert(name.toUpperCase());
   };
 
   return (
-    <TodoContext.Provider value={{ todos, addTodo }}>
+    <TodoContext.Provider value={{ todos, addTodo, getName, toggleTodoCompleted, removeTodo }}>
       { children }
     </TodoContext.Provider>
   );

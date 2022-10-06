@@ -1,6 +1,10 @@
 import { FC } from 'react';
 import IMAGE from "../public/images/Typescript_logo_2020.svg.png";
 import { TodoList } from '../components/TodoList';
+import { RenderTest } from '../components/RenderTest';
+import { VotEtoTochnoTest } from '../components/VotEtoTochnoTest';
+import { Form } from '../components/Form';
+import "./App.scss";
 
 export const App: FC = () => {
 
@@ -14,6 +18,9 @@ export const App: FC = () => {
         src={IMAGE} 
         alt="image" 
       />
+      <VotEtoTochnoTest />
+      <RenderTest />
+      <Form />
       <TodoList />
     </>
   );

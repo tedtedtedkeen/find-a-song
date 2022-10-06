@@ -1,12 +1,14 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { TodoProvider } from "./hooks/TodoProvider";
+import { Provider } from 'react-redux';
+import store from "./store";
+
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <TodoProvider>
-    <App />
-  </TodoProvider>
+  <Provider store={store}>
+    <App /> 
+  </Provider>
 );
